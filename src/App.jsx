@@ -12,8 +12,9 @@ import Home from "./components/Home";
 function App() {
   return (
     <div className="main">
-      <Header />
-
+      <ErrorBoundary>
+        <Header />
+      </ErrorBoundary>
       <ErrorBoundary>
         <Routes>
           <Route path="/" element={<Home />} />

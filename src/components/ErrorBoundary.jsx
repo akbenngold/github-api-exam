@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
+import ErrorPage from "./ErrorPage";
 
-function ErrorBoundary({ children }) {
-  const [error, setError] = useState(null);
+export default class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
 
-  const handleError = (error, errorInfo) => {
-    // You can also log the error to an error reporting service
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
-    setError(error);
-  };
-
-  if (error) {
-    return <div>Something went wrong: {error.message}</div>;
+    this.state = {
+      hasError: false,
+    };
   }
 
-  return <React.Fragment>{children}</React.Fragment>;
-}
+  static getDerivedStateFromError(error) {
+    return {
+      hasError: true,
+    };
+  }
 
-export default ErrorBoundary;
+  render() {
+    if (this.state.hasError) {
+      return <ErrorPage />;
+    }
+
+    return this.props.children;
+  }
+}
